@@ -4,12 +4,25 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link href="./styles/output.css" rel="stylesheet">
+  <style>
+    .dotted-overlay::before {
+      content: "";
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      background: transparent url(assets/dots.png) repeat 0 0;
+      z-index: 1000; /* Ensure it is on top of everything */
+    }
+  </style>
 </head>
-<body>
+<body class="dotted-overlay">
     <div class="relative h-screen overflow-hidden">
         <!-- Blurred background layer -->
         <div class="absolute inset-0 bg-violet-950">
-            <div class="absolute inset-0 bg-[url('../assets/bg.png')] bg-cover bg-center blur-md"></div>
+            <div class="absolute inset-0 bg-[url('../assets/bg.png')] bg-cover bg-center saturate-50 blur-md"></div>
         </div>
         <!-- Content layer -->
         <div class="relative h-full flex items-center justify-center">
@@ -18,8 +31,8 @@
                     <img src="assets/bg.png" alt="Banner" class="h-32 w-full object-cover border-b-violet-900 border-b-3">
                     <img src="assets/bg.png" alt="pfp" class="absolute left-1/2 transform -translate-x-1/2 -translate-y-1/2 rounded-full h-16 w-16 border-purple-900 border-3 top-16">
                 </div>
-                <h1 class="text-2xl font-bold text-center p-8 mt-16">Hello World</h1>
-                <p class="text-center p-8">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam nec purus ac libero ultricies aliquam.</p>
+                <h1 class="text-2xl font-bold text-center p-8 mt-16 text-violet-400">Bogi</h1>
+                <p class="text-center p-8 text-violet-200">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam nec purus ac libero ultricies aliquam.</p>
             </div>
         </div>
     </div>

@@ -14,7 +14,10 @@
       height: 100%;
       pointer-events: none;
       background: transparent url(assets/dots.png) repeat 0 0;
-      z-index: 1000; /* Ensure it is on top of everything */
+      z-index: 1000;
+    }
+    .no-overlay::before {
+      display: none;
     }
   </style>
 </head>
@@ -26,6 +29,7 @@
         </div>
         <!-- Content layer -->
         <div class="relative h-full flex items-center justify-center">
+          <button class="absolute top-4 left-4 bg-gray-700 text-white py-2 px-4 rounded" id="TV-Toggle">Click Me</button>
             <div class="backdrop-blur-s2xl backdrop-saturate-80 p-0 rounded-lg shadow-lg z-10 border-purple-900 border-3">
                 <div class="relative overflow-hidden rounded-t-md">
                     <img src="assets/bg.png" alt="Banner" class="h-32 w-full object-cover border-b-violet-900 border-b-3">
@@ -36,5 +40,6 @@
             </div>
         </div>
     </div>
+    <script src="script.js"></script>
 </body>
 </html>

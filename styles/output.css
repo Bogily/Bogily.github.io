@@ -574,12 +574,12 @@ video {
   left: 50%;
 }
 
-.top-16 {
-  top: 4rem;
-}
-
 .left-4 {
   left: 1rem;
+}
+
+.top-16 {
+  top: 4rem;
 }
 
 .top-4 {
@@ -594,10 +594,6 @@ video {
   margin-top: 4rem;
 }
 
-.mr-2 {
-  margin-right: 0.5rem;
-}
-
 .flex {
   display: flex;
 }
@@ -610,6 +606,10 @@ video {
   height: 8rem;
 }
 
+.h-6 {
+  height: 1.5rem;
+}
+
 .h-full {
   height: 100%;
 }
@@ -618,20 +618,16 @@ video {
   height: 100vh;
 }
 
-.h-6 {
-  height: 1.5rem;
-}
-
 .w-16 {
   width: 4rem;
 }
 
-.w-full {
-  width: 100%;
-}
-
 .w-6 {
   width: 1.5rem;
+}
+
+.w-full {
+  width: 100%;
 }
 
 .-translate-x-1\/2 {
@@ -660,16 +656,16 @@ video {
   overflow: hidden;
 }
 
+.rounded {
+  border-radius: 0.25rem;
+}
+
 .rounded-full {
   border-radius: 9999px;
 }
 
 .rounded-lg {
   border-radius: 0.5rem;
-}
-
-.rounded {
-  border-radius: 0.25rem;
 }
 
 .rounded-t-md {
@@ -700,21 +696,8 @@ video {
   background-color: rgb(46 16 101 / var(--tw-bg-opacity, 1));
 }
 
-.bg-gray-700 {
-  --tw-bg-opacity: 1;
-  background-color: rgb(55 65 81 / var(--tw-bg-opacity, 1));
-}
-
 .bg-\[url\(\'\.\.\/assets\/bg\.png\'\)\] {
   background-image: url('../assets/bg.png');
-}
-
-.bg-\[url\(\'\.\.\/assets\/tv\.png\'\)\] {
-  background-image: url('../assets/tv.png');
-}
-
-.bg-\[url\(\'\.\/assets\/tv\.png\'\)\] {
-  background-image: url('./assets/tv.png');
 }
 
 .bg-cover {

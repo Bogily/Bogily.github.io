@@ -769,6 +769,16 @@ video {
   background-color: rgb(76 29 149 / var(--tw-bg-opacity, 1));
 }
 
+.bg-purple-900 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(88 28 135 / var(--tw-bg-opacity, 1));
+}
+
+.bg-purple-950 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(59 7 100 / var(--tw-bg-opacity, 1));
+}
+
 .bg-\[url\(\'\.\.\/assets\/bg\.png\'\)\] {
   background-image: url('../assets/bg.png');
 }

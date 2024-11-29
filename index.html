@@ -18,13 +18,14 @@
       display: none;
     }
     .slide-box {
-      transition: transform 0.3s ease-in-out;
+      z-index: 1000000;
+      transition: transform 2s ease-in-out, scale 2s ease-in-out;
       transform: translateX(95%);
-      font-size: 0px;
+      scale: 1;
     }
     .slide-box:hover {
-      font-size: 1rem;
-      transform: translateX(80%);
+      scale: 0.9;
+      transform: translateX(0%);
     }
   </style>
 </head>
@@ -45,7 +46,7 @@
                     <img src="assets/bg.png" alt="Banner" class="h-32 w-full object-cover border-b-violet-900 border-b-3">
                     <img src="assets/pfp.png" alt="pfp" class="absolute left-1/2 transform -translate-x-1/2 -translate-y-1/2 rounded-full h-16 w-16 border-purple-900 border-3 top-16">
                 </div>
-                <h1 class="text-2xl font-bold text-center p-8 mt-16 text-violet-400">Bogi</h1>
+                <!-- fix also name hin machen !--><h1 class="text-2xl font-bold text-center p-8 mt-16 text-violet-400"></h1>
                 <div class="flex justify-center items-center">
                   <div class="relative group">
                     <img src="assets/cpp.png" alt="cpp-icon" class="h-6 w-6 m-1 filter" style="filter: invert(71%) sepia(35%) saturate(5582%) hue-rotate(212deg) brightness(98%) contrast(101%);">
@@ -89,13 +90,20 @@
         </a>
       </div>
     </div>
-    <div class="fixed top-0 right-0 h-3/4 bg-violet-950 text-violet-400 p-4 mt-32 rounded-l-lg shadow-lg w-full slide-box">
-      <ul class="list-none space-y-2">
-          <li><a href="">AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</a></li>
-          <li><a href="">AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</a></li>
-          <li><a href="">AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</a></li>
-          <li><a href="">AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</a></li>
-      </ul>
+    <div class="fixed top-0 h-3/4 bg-violet-950 text-violet-400 p-4 mt-32 rounded-l-lg shadow-lg w-full slide-box">
+      <div class="">
+        <div id="chat-box" class="bg-red-500 border-blue-500 border-3 p-5" style="height: 96%">
+        <!-- Temp Temp Temp--><div class="chat-msg">
+            <div class="chat-msg-content">
+              <p>Hey, how can I help you?</p>
+            </div>
+          </div>
+        </div>
+        <div id="bottom-ctrl-line">
+          <input type="text" name="cmd" id="cmd-input" style="width:94%" class="bg-red-500 border-blue-500 border-3">
+          <button class="bg-red-500 border-blue-500 border-3 pl-2 pr-2">send</button>
+        </div>
+      </div>
   </div>
     <script src="script.js"></script>
 </body></html>

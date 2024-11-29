@@ -1,6 +1,4 @@
-<!doctype html>
-<html>
-<head>
+<html><head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link href="./styles/output.css" rel="stylesheet">
@@ -19,15 +17,25 @@
     .no-overlay::before {
       display: none;
     }
+    .slide-box {
+      transition: transform 0.3s ease-in-out;
+      transform: translateX(95%);
+      font-size: 0px;
+    }
+    .slide-box:hover {
+      font-size: 1rem;
+      transform: translateX(80%);
+    }
   </style>
 </head>
-<body class="dotted-overlay">
+<body class="dotted-overlay no-overlay">
     <div class="relative h-screen overflow-hidden">
         <!-- Blurred background layer -->
         <div class="absolute inset-0 bg-violet-950">
             <div class="absolute inset-0 bg-[url('../assets/bg.png')] bg-cover bg-center saturate-50 blur-md"></div>
         </div>
         <!-- Content layer -->
+          <img src="assets/heart.png" alt="" id="mousetrail" class="w-6">
         <div class="relative h-full flex items-center justify-center p-4">
           <button class="absolute top-4 left-4 bg-violet-950 text-violet-400 py-2 px-4 rounded-full flex justify-center items-center width border-3 border-purple-900" id="TV-Toggle">
             <img src="assets/tv.png" alt="TV Icon" class="h-6 w-6 filter" style="filter: invert(16%) sepia(86%) saturate(2689%) hue-rotate(256deg) brightness(78%) contrast(103%);">
@@ -58,7 +66,7 @@
                     </div>
                   </div>
                 </div>
-                <p class="text-center p-8 text-violet-200">Hi i'm bogi, i'm a fullstack developer from Germany <br>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ex alias repellat, quae odio, voluptatem nemo ut libero dicta soluta repellendus eaque sequi aliquid unde sit dolor? Repudiandae adipisci autem ducimus.</p>
+                <p class="text-center p-8 text-violet-200">Hi i'm bogi, i'm a fullstack developer from Germany</p>
             </div>
         </div>
     </div>
@@ -81,6 +89,13 @@
         </a>
       </div>
     </div>
+    <div class="fixed top-0 right-0 h-3/4 bg-violet-950 text-violet-400 p-4 mt-32 rounded-l-lg shadow-lg w-full slide-box">
+      <ul class="list-none space-y-2">
+          <li><a href="">AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</a></li>
+          <li><a href="">AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</a></li>
+          <li><a href="">AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</a></li>
+          <li><a href="">AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</a></li>
+      </ul>
+  </div>
     <script src="script.js"></script>
-</body>
-</html>
+</body></html>

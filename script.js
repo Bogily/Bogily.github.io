@@ -55,7 +55,7 @@ document.body.style.overflow = 'hidden';
 document.addEventListener('DOMContentLoaded', function() {
   const cmdInput = document.getElementById('cmd-input');
   const sendBtn = document.getElementById('send-btn');
-  const chatBox = document.getElementById('chat-box');
+  const chatBox = document.getElementById('chat-box');  
   const titleText = "geiselnah.me ";
   let index = 0;
 

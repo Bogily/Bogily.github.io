@@ -73,4 +73,18 @@ const cmdMenu = document.getElementById('cmd-menu');
 
 cmdToggleButton.addEventListener('click', function() {
   cmdMenu.classList.toggle('hidden');
+  
+});
+
+// Send command on Enter key
+document.addEventListener('DOMContentLoaded', function() {
+  const cmdInput = document.getElementById('cmd-input');
+  const sendBtn = document.getElementById('send-btn');
+
+  cmdInput.addEventListener('keydown', function(event) {
+    if (event.key === 'Enter') {
+      event.preventDefault();
+      sendBtn.click();
+    }
+  });
 });

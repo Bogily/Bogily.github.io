@@ -76,7 +76,7 @@ document.addEventListener('DOMContentLoaded', function() {
         chatBox.innerHTML = '';
         break;
       case 'links':
-        appendMessage('Useful links:<br>1. <a href="https://github.com" target="_blank" style="color: #8b5cf6; text-decoration: underline;">GitHub</a><br>2. <a href="https://stackoverflow.com" target="_blank" style="color: #8b5cf6; text-decoration: underline;">Stack Overflow</a>', true);
+        appendMessage('My Link:<br>1. <a href="https://github.com/bogily" target="_blank" style="color: #8b5cf6; text-decoration: underline;">GitHub</a><br>2. <a href="https://youtube.com/@bro" target="_blank" style="color: #8b5cf6; text-decoration: underline;">Youtube</a>', true);
         break;
       case 'help':
         appendMessage('Available commands:<br>1. about<br>2. clear<br>3. links<br>4. setdelay [milliseconds]', true);

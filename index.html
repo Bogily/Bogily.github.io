@@ -17,16 +17,7 @@
     .no-overlay::before {
       display: none;
     }
-    .slide-box {
-      z-index: 1000000;
-      transition: transform 2s ease-in-out, scale 2s ease-in-out;
-      transform: translateX(95%);
-      scale: 1;
-    }
-    .slide-box:hover {
-      scale: 0.9;
-      transform: translateX(0%);
-    }
+
     .trail {
       z-index: 1202020;
       position: absolute;
@@ -100,20 +91,19 @@
         </a>
       </div>
     </div>
-    <div class="fixed top-0 h-3/4 bg-violet-950 text-violet-400 p-4 mt-32 rounded-l-lg shadow-lg w-full slide-box">
-      <div class="">
-        <div id="chat-box" class="bg-red-500 border-blue-500 border-3 p-5" style="height: 96%">
-        <!-- Temp Temp Temp--><div class="chat-msg">
-            <div class="chat-msg-content">
-              <p>Hey, how can I help you?</p>
-            </div>
-          </div>
+    <button id="cmd-toggle" class="fixed top-4 right-4 bg-violet-950 text-violet-400 py-2 px-4 rounded-full flex justify-center items-center border-3 border-purple-900">
+      <img src="assets/cmd.png" alt="CMD Icon" class="h-6 w-6 filter" style="filter: invert(16%) sepia(86%) saturate(2689%) hue-rotate(256deg) brightness(78%) contrast(103%);">
+    </button>
+    <div id="cmd-menu" class="fixed top-0 h-3/4 z-50 bg-violet-950 text-violet-400 p-4 mt-32 rounded-l-lg shadow-lg w-full slide-box hidden">
+      <div>
+        <div id="chat-box" class="bg-violet-400 border-violet-400 border-3 p-5" style="height: 96%; overflow-y: auto;">
+          <!-- Command output will be appended here -->
         </div>
-        <div id="bottom-ctrl-line">
-          <input type="text" name="cmd" id="cmd-input" style="width:94%" class="bg-red-500 border-blue-500 border-3">
-          <button class="bg-red-500 border-blue-500 border-3 pl-2 pr-2">send</button>
+        <div id="bottom-ctrl-line" class="flex items-center gap-2">
+          <input type="text" name="cmd" id="cmd-input" class="flex-1 p-2 bg-red-500 border-blue-500 border-3 rounded">
+          <button class="bg-violet-950 border-violet-400 border-3 px-4 py-2 rounded text-violet-400 hover:bg-violet-900" id="send-btn">send</button>
         </div>
       </div>
-  </div>
+    </div>
     <script src="script.js"></script>
 </body></html>

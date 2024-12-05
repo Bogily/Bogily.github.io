@@ -25,7 +25,7 @@ document.addEventListener('mousemove', function(e) {
   trail.style.left = `${e.pageX}px`;
   trail.style.top = `${e.pageY}px`;
 
-  const randomX = (Math.random() - 0.5) * 200; // Random horizontal movement
+  const randomX = (Math.random() - 0.5) * 20; // Random horizontal movement
   const fallDuration = 2000; // Duration of the fall
 
   setTimeout(() => {
@@ -40,3 +40,37 @@ document.addEventListener('mousemove', function(e) {
 
 // Ensure the body does not scroll
 document.body.style.overflow = 'hidden';
+
+// Command box functionality
+const chatBox = document.getElementById('chat-box');
+const cmdInput = document.getElementById('cmd-input');
+const sendBtn = document.getElementById('send-btn');
+
+sendBtn.addEventListener('click', function() {
+  const command = cmdInput.value.trim();
+  if (command) {
+    const commandOutput = document.createElement('div');
+    commandOutput.className = 'chat-msg';
+    commandOutput.innerHTML = `<div class="chat-msg-content"><p>${executeCommand(command)}</p></div>`;
+    chatBox.appendChild(commandOutput);
+    chatBox.scrollTop = chatBox.scrollHeight; // Scroll to the bottom
+    cmdInput.value = ''; // Clear the input
+  }
+});
+
+function executeCommand(command) {
+  switch (command.toLowerCase()) {
+    case 'help':
+      return 'Available commands: help';
+    default:
+      return `Unknown command: ${command}`;
+  }
+}
+
+// Toggle command menu
+const cmdToggleButton = document.getElementById('cmd-toggle');
+const cmdMenu = document.getElementById('cmd-menu');
+
+cmdToggleButton.addEventListener('click', function() {
+  cmdMenu.classList.toggle('hidden');
+});

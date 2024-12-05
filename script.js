@@ -1,3 +1,4 @@
+// TV-Overlay
 const tvToggleButton = document.getElementById('TV-Toggle');
 let overlayState = localStorage.getItem('overlayState');
 
@@ -18,6 +19,7 @@ tvToggleButton.addEventListener('click', function() {
   localStorage.setItem('overlayState', isOverlayOff ? 'off' : 'on');
 });
 
+// Trail effect mouse
 let lastTrailTime = 0;
 let trailDelay = localStorage.getItem('trailDelay') ? parseInt(localStorage.getItem('trailDelay'), 10) : 80; // Customizable delay between dots in milliseconds
 

@@ -97,6 +97,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   }
 
+  // sendBtn click event (send button)
   sendBtn.addEventListener('click', function() {
     const command = cmdInput.value.trim();
     if (command) {
@@ -105,7 +106,7 @@ document.addEventListener('DOMContentLoaded', function() {
       cmdInput.value = '';
     }
   });
-
+  //sendBtn keydown event (Enter key)
   cmdInput.addEventListener('keydown', function(event) {
     if (event.key === 'Enter') {
       event.preventDefault();
@@ -114,6 +115,7 @@ document.addEventListener('DOMContentLoaded', function() {
   });
 });
 
+//cmd-toggle
 const cmdToggleButton = document.getElementById('cmd-toggle');
 const cmdMenu = document.getElementById('cmd-menu');
 

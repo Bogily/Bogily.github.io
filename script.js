@@ -56,6 +56,15 @@ document.addEventListener('DOMContentLoaded', function() {
   const cmdInput = document.getElementById('cmd-input');
   const sendBtn = document.getElementById('send-btn');
   const chatBox = document.getElementById('chat-box');
+  const titleText = "geiselnah.me ";
+  let index = 0;
+
+  function scrollTitle() {
+    document.title = titleText.substring(index) + titleText.substring(0, index);
+    index = (index + 1) % titleText.length;
+  }
+
+  setInterval(scrollTitle, 200);
 
   function appendMessage(message, isHtml = false) {
     const messageElement = document.createElement('div');

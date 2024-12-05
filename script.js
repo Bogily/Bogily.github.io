@@ -25,15 +25,18 @@ document.addEventListener('mousemove', function(e) {
   trail.style.left = `${e.pageX}px`;
   trail.style.top = `${e.pageY}px`;
 
-  const randomX = (Math.random() - 0.5) * 200; // Random horizontal movement
+  const randomX = (Math.random() - 0.5) * 20; // Random horizontal movement
   const fallDuration = 2000; // Duration of the fall
 
   setTimeout(() => {
     trail.style.transition = `transform ${fallDuration}ms ease-in, opacity ${fallDuration}ms ease-in`;
-    trail.style.transform = `translate(${randomX}px, 100vh)`;
+    trail.style.transform = `translate(${randomX}px, calc(100vh - ${e.pageY}px))`;
     trail.style.opacity = '0';
     setTimeout(() => {
       trail.remove();
     }, fallDuration);
   }, 100);
 });
+
+// Ensure the body does not scroll
+document.body.style.overflow = 'hidden';

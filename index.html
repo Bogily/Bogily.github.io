@@ -27,6 +27,17 @@
       scale: 0.9;
       transform: translateX(0%);
     }
+    .trail {
+      z-index: 1202020;
+      position: absolute;
+      width: 10px;
+      height: 10px;
+      background-color: violet;
+      border-radius: 50%;
+      pointer-events: none;
+      opacity: 0.8;
+      transition: transform 0.1s, opacity 0.1s;
+    }
   </style>
 </head>
 <body class="dotted-overlay no-overlay">

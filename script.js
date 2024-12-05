@@ -25,7 +25,7 @@ document.addEventListener('mousemove', function(e) {
   trail.style.left = `${e.pageX}px`;
   trail.style.top = `${e.pageY}px`;
 
-  const randomX = (Math.random() - 0.5) * 20; // Random horizontal movement
+  const randomX = (Math.random() - 0.5) * 200; // Random horizontal movement
   const fallDuration = 2000; // Duration of the fall
 
   setTimeout(() => {

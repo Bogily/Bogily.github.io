@@ -19,7 +19,7 @@ tvToggleButton.addEventListener('click', function() {
 });
 
 let lastTrailTime = 0;
-let trailDelay = 80; // Customizable delay between dots in milliseconds
+let trailDelay = localStorage.getItem('trailDelay') ? parseInt(localStorage.getItem('trailDelay'), 10) : 80; // Customizable delay between dots in milliseconds
 
 document.addEventListener('mousemove', function(e) {
   const currentTime = Date.now();
@@ -84,6 +84,7 @@ document.addEventListener('DOMContentLoaded', function() {
       case 'setdelay':
         if (args.length > 0 && !isNaN(args[0])) {
           trailDelay = parseInt(args[0], 10);
+          localStorage.setItem('trailDelay', trailDelay);
           appendMessage(`Trail delay set to ${trailDelay} milliseconds.`);
         } else {
           appendMessage('Usage: setdelay [milliseconds]');

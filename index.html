@@ -94,14 +94,14 @@
     <button id="cmd-toggle" class="fixed top-4 right-4 bg-violet-950 text-violet-400 py-2 px-4 rounded-full flex justify-center items-center border-3 border-purple-900">
       <img src="assets/cmd.png" alt="CMD Icon" class="h-6 w-6 filter" style="filter: invert(16%) sepia(86%) saturate(2689%) hue-rotate(256deg) brightness(78%) contrast(103%);">
     </button>
-    <div id="cmd-menu" class="fixed top-0 h-3/4 z-50 bg-violet-950 text-violet-400 p-4 mt-32 rounded-l-lg shadow-lg w-full slide-box hidden">
-      <div>
-        <div id="chat-box" class="bg-violet-400 border-violet-400 border-3 p-5" style="height: 96%; overflow-y: auto;">
+    <div id="cmd-menu" class="fixed top-0 bottom-0 z-50 bg-violet-950 text-violet-400 p-6 mt-32 mb-32 rounded-l-lg shadow-lg w-full slide-box hidden">
+      <div class="flex flex-col h-full">
+        <div id="chat-box" class="bg-violet-950 border-violet-400 border-3 p-5 rounded-lg flex-1 overflow-y-auto">
           <!-- Command output will be appended here -->
         </div>
-        <div id="bottom-ctrl-line" class="flex items-center gap-2">
-          <input type="text" name="cmd" id="cmd-input" class="flex-1 p-2 bg-red-500 border-blue-500 border-3 rounded">
-          <button class="bg-violet-950 border-violet-400 border-3 px-4 py-2 rounded text-violet-400 hover:bg-violet-900" id="send-btn">send</button>
+        <div id="bottom-ctrl-line" class="flex items-center mt-4">
+          <input type="text" name="cmd" id="cmd-input" class="flex-1 p-3 bg-violet-900 border-violet-400 border-3 rounded-lg text-violet-400 placeholder-violet-500 focus:outline-none focus:ring-2 focus:ring-violet-500">
+          <button class="ml-4 bg-violet-900 border-violet-400 border-3 px-4 py-2 text-violet-400 rounded-lg hover:bg-violet-800 focus:outline-none focus:ring-2 focus:ring-violet-500" id="send-btn">Send</button>
         </div>
       </div>
     </div>

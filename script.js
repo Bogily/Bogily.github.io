@@ -69,6 +69,9 @@ document.addEventListener('DOMContentLoaded', function() {
       case 'links':
         appendMessage('Useful links:<br>1. <a href="https://github.com" target="_blank" style="color: #8b5cf6; text-decoration: underline;">GitHub</a><br>2. <a href="https://stackoverflow.com" target="_blank" style="color: #8b5cf6; text-decoration: underline;">Stack Overflow</a>', true);
         break;
+      case 'help':
+        appendMessage('Available commands:<br>1. about<br>2. clear<br>3. links', true);
+        break;
       default:
         appendMessage(`Unknown command: ${command}`);
     }

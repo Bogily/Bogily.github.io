@@ -1,24 +1,3 @@
-// TV-Overlay
-const tvToggleButton = document.getElementById('TV-Toggle');
-let overlayState = localStorage.getItem('overlayState');
-
-if (!overlayState) {
-  overlayState = 'off';
-  localStorage.setItem('overlayState', 'off');
-}
-
-if (overlayState === 'off') {
-  document.body.classList.add('no-overlay');
-} else {
-  document.body.classList.remove('no-overlay');
-}
-
-tvToggleButton.addEventListener('click', function() {
-  document.body.classList.toggle('no-overlay');
-  const isOverlayOff = document.body.classList.contains('no-overlay');
-  localStorage.setItem('overlayState', isOverlayOff ? 'off' : 'on');
-});
-
 // Trail effect mouse
 let lastTrailTime = 0;
 let trailDelay = localStorage.getItem('trailDelay') ? parseInt(localStorage.getItem('trailDelay'), 10) : 80; // Customizable delay between dots in milliseconds
@@ -76,7 +55,7 @@ document.addEventListener('DOMContentLoaded', function() {
     chatBox.appendChild(messageElement);
     chatBox.scrollTop = chatBox.scrollHeight;
   }
-  
+
   function handleCommand(command) {
     const [cmd, ...args] = command.split(' ');
     switch (cmd.toLowerCase()) {
@@ -111,6 +90,7 @@ document.addEventListener('DOMContentLoaded', function() {
         appendMessage(`Unknown command: ${command}`);
     }
   }
+
 
   // sendBtn click event (send button)
   sendBtn.addEventListener('click', function() {

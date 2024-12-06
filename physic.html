@@ -1,13 +1,13 @@
+<!DOCTYPE html>
 <html>
-    <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="./styles/output.css" rel="stylesheet">
-    <title>geiselnah.me</title>
-    <link rel="icon" type="image/x-icon" href="assets/icon.png">
-  </head>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="./styles/output.css" rel="stylesheet">
+  <title>geiselnah.me</title>
+  <link rel="icon" type="image/x-icon" href="assets/icon.png">
   <style>
-        .trail {
+    .trail {
       z-index: 1202020;
       position: absolute;
       width: 10px;
@@ -19,29 +19,31 @@
       transition: transform 0.1s, opacity 0.1s;
     }
   </style>
-  <body class="dotted-overlay no-overlay">
-      <div class="relative h-screen overflow-hidden">
-          <!-- Blurred background layer -->
-          <div class="absolute inset-0 bg-violet-950">
-            <div class="absolute inset-0 bg-[url('../assets/bg.png')] bg-cover bg-center saturate-50 blur-md" id="background-layer"></div>
+</head>
+<body class="dotted-overlay no-overlay overflow-hidden">
+  <div class="relative h-screen overflow-hidden">
+    <!-- Blurred background layer -->
+    <div class="absolute inset-0 bg-violet-950">
+      <div class="absolute inset-0 bg-[url('../assets/bg.png')] bg-cover bg-center saturate-50 blur-md" id="background-layer"></div>
+    </div>
+    <!-- Content layer -->
+    <!-- cli-->
+    <button id="cmd-toggle" class="fixed top-4 right-4 bg-violet-950 text-violet-400 py-2 px-4 rounded-full flex justify-center items-center border-3 border-purple-900">
+      <img src="assets/cmd.png" alt="CMD Icon" class="h-6 w-6 filter" style="filter: invert(16%) sepia(86%) saturate(2689%) hue-rotate(256deg) brightness(78%) contrast(103%);">
+    </button>
+    <div id="cmd-menu" class="fixed top-0 bottom-0 z-50 bg-violet-950 text-violet-400 p-6 mt-32 mb-32 rounded-l-lg shadow-lg w-full slide-box hidden">
+      <div class="flex flex-col h-full">
+        <div id="chat-box" class="bg-violet-950 border-violet-400 border-3 p-5 rounded-lg flex-1 overflow-y-auto">
+          <div>Available commands:<br>1. about<br>2. clear<br>3. links<br>4. setdelay [milliseconds]<br>5. physic (redirects to phyisc simulation page)<br>6. home (redirects you to the main page)<br>7. clearp (clearsparticles)<br>8. togglebounce (toggles particle bounce)<br>9. togglecollision (toggles particle collision)</div>
+          <!-- Command output will be appended here -->
         </div>
-          <!-- Content layer -->
-           <!-- cli-->
-          <button id="cmd-toggle" class="fixed top-4 right-4 bg-violet-950 text-violet-400 py-2 px-4 rounded-full flex justify-center items-center border-3 border-purple-900">
-            <img src="assets/cmd.png" alt="CMD Icon" class="h-6 w-6 filter" style="filter: invert(16%) sepia(86%) saturate(2689%) hue-rotate(256deg) brightness(78%) contrast(103%);">
-          </button>
-          <div id="cmd-menu" class="fixed top-0 bottom-0 z-50 bg-violet-950 text-violet-400 p-6 mt-32 mb-32 rounded-l-lg shadow-lg w-full slide-box hidden">
-            <div class="flex flex-col h-full">
-              <div id="chat-box" class="bg-violet-950 border-violet-400 border-3 p-5 rounded-lg flex-1 overflow-y-auto">
-                <div>Available commands:<br>1. about<br>2. clear<br>3. links<br>4. setdelay [milliseconds]<br>5. physic (redirects to phyisc simulation page)<br>6. home (redirects you to the main page)</div>
-                <!-- Command output will be appended here -->
-              </div>
-              <div id="bottom-ctrl-line" class="flex items-center mt-4">
-                <input type="text" name="cmd" id="cmd-input" class="flex-1 p-3 bg-violet-900 border-violet-400 border-3 rounded-lg text-violet-400 placeholder-violet-500 focus:outline-none focus:ring-2 focus:ring-violet-500">
-                <button class="ml-4 bg-violet-900 border-violet-400 border-3 px-4 py-3 text-violet-400 rounded-lg hover:bg-violet-800 focus:outline-none focus:ring-2 focus:ring-violet-500" id="send-btn">Send</button>
-              </div>
-            </div>
-          </div>
-      <script src="physic.js"></script>
-  </body>
-  </html>
+        <div id="bottom-ctrl-line" class="flex items-center mt-4">
+          <input type="text" name="cmd" id="cmd-input" class="flex-1 p-3 bg-violet-900 border-violet-400 border-3 rounded-lg text-violet-400 placeholder-violet-500 focus:outline-none focus:ring-2 focus:ring-violet-500">
+          <button class="ml-4 bg-violet-900 border-violet-400 border-3 px-4 py-3 text-violet-400 rounded-lg hover:bg-violet-800 focus:outline-none focus:ring-2 focus:ring-violet-500" id="send-btn">Send</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="physic.js"></script>
+</body>
+</html>

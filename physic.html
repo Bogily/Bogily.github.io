@@ -22,11 +22,22 @@
 </head>
 <body class="dotted-overlay no-overlay overflow-hidden">
   <div class="relative h-screen overflow-hidden">
+
     <!-- Blurred background layer -->
     <div class="absolute inset-0 bg-violet-950">
       <div class="absolute inset-0 bg-[url('../assets/bg.png')] bg-cover bg-center saturate-50 blur-md" id="background-layer"></div>
     </div>
     <!-- Content layer -->
+    <div class="absolute inset-0 flex flex-col items-center justify-center">
+      <div class="flex flex-col items-center justify-center">
+        <h1 class="text-6xl font-bold text-violet-400">geiselnah.me</h1>
+        <h2 class="text-2xl font-bold text-violet-400">Physics Simulation</h2>
+        <h3 class="text-xl font-bold text-violet-400">W.I.P</h3>
+      </div>
+      <div id="canvas-container" class="relative w-full h-96">
+        <canvas id="canvas" class="absolute inset-0 w-full h-full"></canvas>
+        <div id="trail" class="trail"></div>
+      </div>
     <!-- cli-->
     <button id="cmd-toggle" class="fixed top-4 right-4 bg-violet-950 text-violet-400 py-2 px-4 rounded-full flex justify-center items-center border-3 border-purple-900">
       <img src="assets/cmd.png" alt="CMD Icon" class="h-6 w-6 filter" style="filter: invert(16%) sepia(86%) saturate(2689%) hue-rotate(256deg) brightness(78%) contrast(103%);">

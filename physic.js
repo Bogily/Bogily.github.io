@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
     const particles = [];
     const gravity = 0.5;
-    const floorY = window.innerHeight - 10; // Adjust based on particle size
+    const floorY = window.innerHeight - 10; // Adjust based on particle size 
     const leftWallX = 0;
     const rightWallX = window.innerWidth - 10; // Adjust based on particle size
     const particleRadius = 5; // Half of the particle size (10px / 2)

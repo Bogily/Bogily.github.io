@@ -6,6 +6,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const rightWallX = window.innerWidth - 10; // Adjust based on particle size
     const particleRadius = 5; // Half of the particle size (10px / 2)
     const friction = 0.99; // Friction factor to slow down particles
+    window.autoDeleteOnLand = false;    
     window.bounceEnabled = false; // Global variable to control bounce
     window.collisionEnabled = false; // Global variable to control bounce
   
@@ -48,6 +49,12 @@ document.addEventListener('DOMContentLoaded', () => {
           } else {
             particle.velocityY = 0; // Stop movement
           }
+        }
+        //auto delete on land
+        if (window.autoDeleteOnLand && particle.y >= floorY) {
+          document.body.removeChild(particle.element);
+          particles.splice(index, 1); // Remove from array
+          return;
         }
   
         if (window.bounceEnabled) {
@@ -159,7 +166,7 @@ document.addEventListener('DOMContentLoaded', function() {
         appendMessage('My Link:<br>1. <a href="https://github.com/bogily" target="_blank" style="color: #8b5cf6; text-decoration: underline;">GitHub</a><br>2. <a href="https://youtube.com/@bro" target="_blank" style="color: #8b5cf6; text-decoration: underline;">Youtube</a>', true);
         break;
       case 'help':
-        appendMessage('Available commands:<br>1. about<br>2. clear<br>3. links<br>4. setdelay [milliseconds]<br>5. physic (redirects to phyisc simulation page)<br>6. home (redirects you to the main page)<br>7. clearp (clearsparticles)<br>8. togglebounce (toggles particle bounce)<br>9. togglecollision (toggles particle collision)', true);
+        appendMessage('Available commands:<br>1. about<br>2. clear<br>3. links<br>4. setdelay [milliseconds]<br>5. physic (redirects to phyisc simulation page)<br>6. home (redirects you to the main page)<br>7. clearp (clearsparticles)<br>8. togglebounce (toggles particle bounce)<br>9. togglecollision (toggles particle collision)<br>10. toggledelete (toggles auto-delete on land)', true);
         break;
       case 'physic':
         window.location.replace("physic.html");
@@ -178,6 +185,10 @@ document.addEventListener('DOMContentLoaded', function() {
       case 'togglecollision':
         window.collisionEnabled = !window.collisionEnabled;
         appendMessage(`Collision is now ${window.collisionEnabled ? 'enabled' : 'disabled'}.`);
+        break;
+      case 'toggledelete':
+        autoDeleteOnLand = !autoDeleteOnLand;
+        appendMessage(`Auto-delete on land is now ${autoDeleteOnLand ? 'enabled' : 'disabled'}.`);
         break;
       case 'setdelay':
         if (args.length > 0 && !isNaN(args[0])) {

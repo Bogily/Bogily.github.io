@@ -6,7 +6,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const rightWallX = window.innerWidth - 10; // Adjust based on particle size
     const particleRadius = 5; // Half of the particle size (10px / 2)
     const friction = 0.99; // Friction factor to slow down particles
-    window.autoDeleteOnLand = false;    
+    const minHeight = 100;
+    const playerSpeed = 5;
+    const jumpStrength = 10;
+    let gameOver = false;
+    window.autoDeleteOnLand = true; // Global variable to control auto-delete on land
     window.bounceEnabled = false; // Global variable to control bounce
     window.collisionEnabled = false; // Global variable to control bounce
   
@@ -25,6 +29,105 @@ document.addEventListener('DOMContentLoaded', () => {
         velocityX: (Math.random() - 0.5) * 2 // Random initial horizontal velocity
       });
     });
+
+    const player = document.createElement('div');
+    player.className = 'player';
+    player.style.position = 'absolute';
+    player.style.width = '20px';
+    player.style.height = '20px';
+    player.style.backgroundColor = 'red';
+    player.style.left = '50%';
+    player.style.top = `${floorY - 20}px`;
+    document.body.appendChild(player);
+  
+    const playerState = {
+      x: window.innerWidth / 2,
+      y: floorY - 20,
+      width: 20,
+      height: 20,
+      velocityY: 0,
+      isJumping: false
+    };
+  
+    const keys = {
+      w: false,
+      a: false,
+      s: false,
+      d: false
+    };
+  
+    // Handle key down
+    document.addEventListener('keydown', (event) => {
+      if (gameOver) return;
+      if (event.key in keys) {
+        keys[event.key] = true;
+      }
+    });
+  
+    // Handle key up
+    document.addEventListener('keyup', (event) => {
+      if (event.key in keys) {
+        keys[event.key] = false;
+      }
+    });
+  
+    function updatePlayer() {
+      if (gameOver) return;
+  
+      if (keys.w && !playerState.isJumping) {
+        playerState.velocityY = -jumpStrength;
+        playerState.isJumping = true;
+      }
+      if (keys.a) {
+        playerState.x = Math.max(playerState.x - playerSpeed, leftWallX);
+      }
+      if (keys.d) {
+        playerState.x = Math.min(playerState.x + playerSpeed, rightWallX - playerState.width);
+      }
+  
+      playerState.velocityY += gravity;
+      playerState.y += playerState.velocityY;
+  
+      // Ground collision
+      if (playerState.y >= floorY - playerState.height) {
+        playerState.y = floorY - playerState.height;
+        playerState.velocityY = 0;
+        playerState.isJumping = false;
+      }
+  
+      player.style.left = `${playerState.x}px`;
+      player.style.top = `${playerState.y}px`;
+    }
+      // Randomly spawn particles
+      const numParticles = 100; // Number of particles to spawn
+      for (let i = 0; i < numParticles; i++) {
+        let x, y;
+        do {
+          x = Math.random() * window.innerWidth;
+          y = minHeight + Math.random() * (window.innerHeight - minHeight);
+        } while (
+          x < playerState.x + playerState.width &&
+          x + particleRadius * 2 > playerState.x &&
+          y < playerState.y + playerState.height &&
+          y + particleRadius * 2 > playerState.y
+        );
+    
+        const particle = document.createElement('div');
+        particle.className = 'particle';
+        particle.style.left = `${x}px`;
+        particle.style.top = `${y}px`;
+        document.body.appendChild(particle);
+    
+        particles.push({
+          element: particle,
+          x: x,
+          y: y,
+          velocityY: 0,
+          velocityX: (Math.random() - 0.5) * 2 // Random initial horizontal velocity
+        });
+      }
+
+    
   
     window.clearParticles = function() {
       particles.forEach(particle => {
@@ -32,8 +135,10 @@ document.addEventListener('DOMContentLoaded', () => {
       });
       particles.length = 0;
     };
-  
+    
     function updateParticles() {
+      if (gameOver) return;
+
       particles.forEach((particle, index) => {
         particle.velocityY += gravity;
         particle.velocityY *= friction; // Apply friction to slow down
@@ -115,8 +220,19 @@ document.addEventListener('DOMContentLoaded', () => {
   
         particle.element.style.top = `${particle.y}px`;
         particle.element.style.left = `${particle.x}px`;
+          /* Check for player collision
+        if (
+          particle.x < playerState.x + playerState.width &&
+          particle.x + particleRadius * 2 > playerState.x &&
+          particle.y < playerState.y + playerState.height &&
+          particle.y + particleRadius * 2 > playerState.y
+          ) {
+            gameOver = true;
+            alert('Game Over!');
+          }
+            */
       });
-  
+      updatePlayer();
       requestAnimationFrame(updateParticles);
     }
   

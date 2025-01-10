@@ -13,6 +13,8 @@ document.addEventListener('DOMContentLoaded', () => {
   let playerHealth = 100;
   let isHurt = false;
   const hurtDuration = 2000; // Hurt time in milliseconds
+  let lastTime = performance.now();
+  let timeScale = 90; // Customizable timescale variable
 
   window.autoDeleteOnLand = true; // Global variable to control auto-delete on land
   window.bounceEnabled = false; // Global variable to control bounce
@@ -118,7 +120,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  function updatePlayer() {
+  function updatePlayer(deltaTime) {
     if (gameOver) return;
 
     if (keys.w && !playerState.isJumping) {
@@ -127,14 +129,14 @@ document.addEventListener('DOMContentLoaded', () => {
       spawnJumpParticles(); // Spawn particles when player jumps
     }
     if (keys.a) {
-      playerState.x = Math.max(playerState.x - playerSpeed, leftWallX);
+      playerState.x = Math.max(playerState.x - playerSpeed * deltaTime, leftWallX);
     }
     if (keys.d) {
-      playerState.x = Math.min(playerState.x + playerSpeed, rightWallX - playerState.width);
+      playerState.x = Math.min(playerState.x + playerSpeed * deltaTime, rightWallX - playerState.width);
     }
 
-    playerState.velocityY += gravity;
-    playerState.y += playerState.velocityY;
+    playerState.velocityY += gravity * deltaTime;
+    playerState.y += playerState.velocityY * deltaTime;
 
     // Ground collision
     if (playerState.y >= floorY - playerState.height) {
@@ -147,10 +149,10 @@ document.addEventListener('DOMContentLoaded', () => {
     player.style.top = `${playerState.y}px`;
   }
 
-  function updateEnemy() {
+  function updateEnemy(deltaTime) {
     if (gameOver) return;
 
-    enemyState.x += enemyState.velocityX;
+    enemyState.x += enemyState.velocityX * deltaTime;
 
     // Wall collision
     if (enemyState.x <= leftWallX || enemyState.x >= rightWallX - enemyState.width) {
@@ -190,15 +192,15 @@ document.addEventListener('DOMContentLoaded', () => {
     }, hurtDuration);
   }
 
-  function updateParticles() {
+  function updateParticles(deltaTime) {
     if (gameOver) return;
 
     particles.forEach((particle, index) => {
-      particle.velocityY += gravity;
+      particle.velocityY += gravity * deltaTime;
       particle.velocityY *= friction; // Apply friction to slow down
       particle.velocityX *= friction; // Apply friction to slow down
-      particle.y += particle.velocityY;
-      particle.x += particle.velocityX;
+      particle.y += particle.velocityY * deltaTime;
+      particle.x += particle.velocityX * deltaTime;
 
       // Ground collision
       if (particle.y >= floorY) {
@@ -232,9 +234,19 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
 
-    updatePlayer();
-    updateEnemy();
-    requestAnimationFrame(updateParticles);
+    updatePlayer(deltaTime);
+    updateEnemy(deltaTime);
+  }
+
+  function gameLoop(currentTime) {
+    const deltaTime = ((currentTime - lastTime) / 1000) * timeScale; // Convert to seconds and apply timeScale
+    lastTime = currentTime;
+
+    updateParticles(deltaTime);
+
+    if (!gameOver) {
+      requestAnimationFrame(gameLoop);
+    }
   }
 
   // Randomly spawn particles
@@ -266,7 +278,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  updateParticles();
+  requestAnimationFrame(gameLoop);
 });
       // Ensure the body does not scroll
       document.body.style.overflow = 'hidden';

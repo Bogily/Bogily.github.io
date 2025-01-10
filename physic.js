@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', () => {
   let gameOver = false;
   let playerHealth = 100;
   let isHurt = false;
-  const hurtDuration = 2000; // Hurt time in milliseconds
+  const hurtDuration = 500; // Hurt time in milliseconds
   let lastTime = performance.now();
   let timeScale = 90; // Customizable timescale variable
 

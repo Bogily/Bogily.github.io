@@ -7,14 +7,14 @@ document.addEventListener('DOMContentLoaded', () => {
   const particleRadius = 5; // Half of the particle size (10px / 2)
   const friction = 0.99; // Friction factor to slow down particles
   const minHeight = 100;
-  const playerSpeed = 5;
+  const playerSpeed = 3;
   const jumpStrength = 10;
   let gameOver = false;
   let playerHealth = 100;
   let isHurt = false;
   const hurtDuration = 500; // Hurt time in milliseconds
   let lastTime = performance.now();
-  let timeScale = 90; // Customizable timescale variable
+  const timeScale = 90; // Customizable timescale variable
 
   window.autoDeleteOnLand = true; // Global variable to control auto-delete on land
   window.bounceEnabled = false; // Global variable to control bounce
@@ -93,29 +93,59 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   function spawnJumpParticles() {
-    const numParticles = 5; // Number of particles to spawn
+    const numParticles = 10; // Number of particles for the initial burst
+    const trailParticles = 10; // Number of particles for the trailing effect
+    const colors = ['white','whitesmoke',]; // Array of colors for variation
+  
+    // Initial burst particles
     for (let i = 0; i < numParticles; i++) {
       const particle = document.createElement('div');
       particle.className = 'jump-particle';
       particle.style.position = 'absolute';
-      particle.style.width = '10px';
-      particle.style.height = '10px';
-      particle.style.backgroundColor = 'yellow';
+      particle.style.width = `${Math.random() * 3 + 5}px`; // Random width between 5 and 15px
+      particle.style.height = `${Math.random() * 3 + 5}px`; // Random height between 5 and 15px
+      particle.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)]; // Random color
       particle.style.left = `${playerState.x + playerState.width / 2}px`;
-      particle.style.top = `${playerState.y}px`;
+      particle.style.top = `${playerState.y + 20}px`;
       document.body.appendChild(particle);
-
-      const randomX = (Math.random() - 0.5) * 20; // Random horizontal movement
-      const randomY = -Math.random() * 50; // Random vertical movement
-      const fallDuration = 1000; // Duration of the fall
-
+  
+      const randomX = (Math.random() - 0.5) * 300; // Increase horizontal movement for side burst effect
+      const randomY = (Math.random() - 0.5) * 50; // Reduce vertical movement
+      const burstDuration = 300; // Duration for the burst effect
+  
       setTimeout(() => {
-        particle.style.transition = `transform ${fallDuration}ms ease-in, opacity ${fallDuration}ms ease-in`;
-        particle.style.transform = `translate(${randomX}px, ${randomY}px)`; // Move upwards and to the side
+        particle.style.transition = `transform ${burstDuration}ms ease-out, opacity ${burstDuration}ms ease-out`;
+        particle.style.transform = `translate(${randomX}px, ${randomY}px)`; // Move to the sides and slightly up/down
         particle.style.opacity = '0';
         setTimeout(() => {
           particle.remove();
-        }, fallDuration);
+        }, burstDuration);
+      }, 0);
+    }
+  
+    // Trailing particles
+    for (let i = 0; i < trailParticles; i++) {
+      const particle = document.createElement('div');
+      particle.className = 'trail-particle';
+      particle.style.position = 'absolute';
+      particle.style.width = `${Math.random() * 5 + 2}px`; // Random width between 2 and 7px
+      particle.style.height = `${Math.random() * 23 + 2}px`; // Random height between 2 and 7px
+      particle.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)]; // Random color
+      particle.style.left = `${playerState.x + playerState.width / 2}px`;
+      particle.style.top = `${playerState.y + 10}px`;
+      document.body.appendChild(particle);
+  
+      const randomX = (Math.random() - 0.5) * 50; // Small horizontal movement for trailing effect
+      const randomY = -Math.random() * 10 - 50; // Upward movement for trailing effect
+      const trailDuration = 200; // Duration for the trailing effect
+  
+      setTimeout(() => {
+        particle.style.transition = `transform ${trailDuration}ms ease-out, opacity ${trailDuration}ms ease-out`;
+        particle.style.transform = `translate(${randomX}px, ${randomY}px)`; // Move upwards and slightly to the side
+        particle.style.opacity = '0';
+        setTimeout(() => {
+          particle.remove();
+        }, trailDuration);
       }, 0);
     }
   }

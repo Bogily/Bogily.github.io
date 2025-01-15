@@ -7,6 +7,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const particleRadius = 5; // Half of the particle size (10px / 2)
   const friction = 0.99; // Friction factor to slow down particles
   const minHeight = 100;
+  const particleFallSpeed = 7; // Customizable particle fall speed
   const playerSpeed = 3;
   const jumpStrength = 10;
   let gameOver = false;
@@ -15,6 +16,10 @@ document.addEventListener('DOMContentLoaded', () => {
   const hurtDuration = 500; // Hurt time in milliseconds
   let lastTime = performance.now();
   const timeScale = 90; // Customizable timescale variable
+  let points = 0; // Points counter
+  let particleSpawnInterval = 50; // Initial particle spawn interval in milliseconds
+  let highScore = localStorage.getItem('highScore') || 0;
+  highScore = Math.floor(highScore) // Retrieve high score from localStorage
 
   window.autoDeleteOnLand = true; // Global variable to control auto-delete on land
   window.bounceEnabled = false; // Global variable to control bounce
@@ -31,6 +36,28 @@ document.addEventListener('DOMContentLoaded', () => {
   healthBar.style.backgroundColor = 'green';
   document.body.appendChild(healthBar);
 
+  // Create points counter
+  const pointsCounter = document.createElement('div');
+  pointsCounter.className = 'points-counter';
+  pointsCounter.style.position = 'absolute';
+  pointsCounter.style.top = '40px';
+  pointsCounter.style.left = '10px';
+  pointsCounter.style.fontSize = '20px';
+  pointsCounter.style.color = 'white';
+  pointsCounter.innerText = `Points: ${points}`;
+  document.body.appendChild(pointsCounter);
+
+   // Create high score counter
+   const highScoreCounter = document.createElement('div');
+   highScoreCounter.className = 'high-score-counter';
+   highScoreCounter.style.position = 'absolute';
+   highScoreCounter.style.top = '70px';
+   highScoreCounter.style.left = '10px';
+   highScoreCounter.style.fontSize = '20px';
+   highScoreCounter.style.color = 'white';
+   highScoreCounter.innerText = `High Score: ${highScore}`;
+   document.body.appendChild(highScoreCounter);
+
   // Create player character
   const player = document.createElement('div');
   player.className = 'player';
@@ -42,6 +69,31 @@ document.addEventListener('DOMContentLoaded', () => {
   player.style.top = `${floorY - 20}px`;
   document.body.appendChild(player);
 
+  // Create game over menu
+  const gameOverMenu = document.createElement('div');
+  gameOverMenu.className = 'game-over-menu';
+  gameOverMenu.style.position = 'absolute';
+  gameOverMenu.style.top = '50%';
+  gameOverMenu.style.left = '50%';
+  gameOverMenu.style.zIndex = '2828828';
+  gameOverMenu.style.transform = 'translate(-50%, -50%)';
+  gameOverMenu.style.padding = '20px';
+  gameOverMenu.style.backgroundColor = 'rgba(0, 0, 0, 0.8)';
+  gameOverMenu.style.color = 'white';
+  gameOverMenu.style.fontSize = '24px';
+  gameOverMenu.style.textAlign = 'center';
+  gameOverMenu.style.display = 'none';
+  gameOverMenu.innerHTML = `
+    <p>Game Over!</p>
+    <p>Points: <span id="final-points">${points}</span></p>
+    <p>High Score: <span id="final-high-score">${highScore}</span></p>
+    <button id="restart-button">Restart</button>
+  `;
+  document.body.appendChild(gameOverMenu);
+
+  document.getElementById('restart-button').addEventListener('click', () => {
+    location.reload(); // Reload the page to restart the game
+  });
   const playerState = {
     x: window.innerWidth / 2,
     y: floorY - 20,
@@ -208,10 +260,9 @@ document.addEventListener('DOMContentLoaded', () => {
   function updateHealthBar() {
     healthBar.style.width = `${playerHealth * 2}px`; // Scale health bar width
     if (playerHealth <= 0) {
-      gameOver = true;
-      alert('Game Over!');
-    }
-  }
+      playerHealth = 0;
+      setGameOver();
+  }}
 
   function triggerHurtState() {
     isHurt = true;
@@ -226,23 +277,14 @@ document.addEventListener('DOMContentLoaded', () => {
     if (gameOver) return;
 
     particles.forEach((particle, index) => {
-      particle.velocityY += gravity * deltaTime;
-      particle.velocityY *= friction; // Apply friction to slow down
-      particle.velocityX *= friction; // Apply friction to slow down
       particle.y += particle.velocityY * deltaTime;
-      particle.x += particle.velocityX * deltaTime;
 
       // Ground collision
       if (particle.y >= floorY) {
         particle.y = floorY;
-        if (window.bounceEnabled) {
-          particle.velocityY = -particle.velocityY * 0.7; // Bounce with damping
-        }
-      }
-
-      // Wall collision
-      if (particle.x <= leftWallX || particle.x >= rightWallX) {
-        particle.velocityX = -particle.velocityX * 0.7; // Bounce with damping
+        document.body.removeChild(particle.element);
+        particles.splice(index, 1);
+        return; // Skip further processing for this particle
       }
 
       particle.element.style.top = `${particle.y}px`;
@@ -262,10 +304,31 @@ document.addEventListener('DOMContentLoaded', () => {
         particles.splice(index, 1);
         triggerHurtState();
       }
+
+      // Remove particle if it goes off screen
+      if (particle.y > window.innerHeight) {
+        document.body.removeChild(particle.element);
+        particles.splice(index, 1);
+      }
     });
 
     updatePlayer(deltaTime);
     updateEnemy(deltaTime);
+  }
+  function setGameOver() {
+    gameOver = true;
+
+    // Save high score on game over
+    if (points > highScore) {
+      highScore = points;
+      localStorage.setItem('highScore', highScore);
+      highScoreCounter.innerText = `High Score: ${Math.floor(highScore)}`;
+    }
+
+    // Show game over menu
+    document.getElementById('final-points').innerText = Math.floor(points);
+    document.getElementById('final-high-score').innerText = Math.floor(highScore);
+    gameOverMenu.style.display = 'block';
   }
 
   function gameLoop(currentTime) {
@@ -275,7 +338,16 @@ document.addEventListener('DOMContentLoaded', () => {
     updateParticles(deltaTime);
 
     if (!gameOver) {
+      points += deltaTime; // Increase points based on time survived
+      pointsCounter.innerText = `Points: ${Math.floor(points)}`;
       requestAnimationFrame(gameLoop);
+    }else {
+      // Save high score on game over
+      if (points > highScore) {
+        highScore = points;
+        localStorage.setItem('highScore', highScore);
+        highScoreCounter.innerText = `High Score: ${Math.floor(highScore)}`;
+      }
     }
   }
 
@@ -303,10 +375,32 @@ document.addEventListener('DOMContentLoaded', () => {
       element: particle,
       x: x,
       y: y,
-      velocityY: 0,
-      velocityX: (Math.random() - 0.5) * 2 // Random initial horizontal velocity
+      velocityY: particleFallSpeed, // Use customizable particle fall speed
+      velocityX: 0
     });
   }
+
+  // Create falling particles at intervals
+  setInterval(() => {
+    const x = Math.random() * window.innerWidth;
+    const particle = document.createElement('div');
+    particle.className = 'falling-particle';
+    particle.style.position = 'absolute';
+    particle.style.width = '10px';
+    particle.style.height = '10px';
+    particle.style.backgroundColor = 'blue';
+    particle.style.left = `${x}px`;
+    particle.style.top = '0px';
+    document.body.appendChild(particle);
+
+    particles.push({
+      element: particle,
+      x: x,
+      y: 0,
+      velocityY: particleFallSpeed, // Use customizable particle fall speed
+      velocityX: 0
+    });
+  }, particleSpawnInterval);
 
   requestAnimationFrame(gameLoop);
 });

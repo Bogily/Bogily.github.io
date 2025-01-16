@@ -51,11 +51,13 @@ document.addEventListener('mousemove', function(e) {
 // Ensure the body does not scroll
 document.body.style.overflow = 'hidden';
 
-// Command box functionality
+// Command box functionality + title animation
 document.addEventListener('DOMContentLoaded', function() {
   const cmdInput = document.getElementById('cmd-input');
   const sendBtn = document.getElementById('send-btn');
   const chatBox = document.getElementById('chat-box');  
+
+  // Title animation
   const titleText = "geiselnah.me ";
   let index = 0;
 
@@ -68,7 +70,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
   function appendMessage(message, isHtml = false) {
     const messageElement = document.createElement('div');
-    if (isHtml) {
+    if (isHtml) { // If the message is HTML, use innerHTML else use textContent
       messageElement.innerHTML = message;
     } else {
       messageElement.textContent = message;
@@ -100,8 +102,8 @@ document.addEventListener('DOMContentLoaded', function() {
         break;
       case 'setdelay':
         if (args.length > 0 && !isNaN(args[0])) {
-          trailDelay = parseInt(args[0], 10);
-          localStorage.setItem('trailDelay', trailDelay);
+          trailDelay = parseInt(args[0], 10); 
+          localStorage.setItem('trailDelay', trailDelay); 
           appendMessage(`Trail delay set to ${trailDelay} milliseconds.`);
         } else {
           appendMessage('Usage: setdelay [milliseconds]');
@@ -114,7 +116,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
   // sendBtn click event (send button)
   sendBtn.addEventListener('click', function() {
-    const command = cmdInput.value.trim();
+    const command = cmdInput.value.trim(); // Remove leading and trailing whitespaces
     if (command) {
       appendMessage(`> ${command}`);
       handleCommand(command);

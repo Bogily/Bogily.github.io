@@ -1,29 +1,29 @@
-document.addEventListener('DOMContentLoaded', () => {
-  const particles = [];
-  const gravity = 0.5;
+document.addEventListener('DOMContentLoaded', () => { // Wait for the DOM to load
+  const particles = []; // Array to store particle elements
+  const gravity = 0.5; // Customizable gravity variable
   const floorY = window.innerHeight - 10; // Adjust based on particle size
-  const leftWallX = 0;
-  const rightWallX = window.innerWidth - 10; // Adjust based on particle size
+  const leftWallX = 0; // Left wall position
+  const rightWallX = window.innerWidth - 10; // Adjust based on particle size --> right wall position
   const particleRadius = 5; // Half of the particle size (10px / 2)
   const friction = 0.99; // Friction factor to slow down particles
-  const minHeight = 100;
+  const minHeight = 100; // Minimum height for particle spawn 
   const particleFallSpeed = 7; // Customizable particle fall speed
-  const playerSpeed = 3;
-  const jumpStrength = 10;
-  let gameOver = false;
-  let playerHealth = 100;
-  let isHurt = false;
+  const playerSpeed = 3; // Customizable player speed
+  const jumpStrength = 10; // Customizable jump strength
+  let gameOver = false; // Game over flag
+  let playerHealth = 100; // Player health
+  let isHurt = false; // Hurt state flag
   const hurtDuration = 500; // Hurt time in milliseconds
-  let lastTime = performance.now();
-  const timeScale = 90; // Customizable timescale variable
+  let lastTime = performance.now(); // Last frame time used for delta time calculation
+  const timeScale = 90; // Customizable timescale variable for delta time
   let points = 0; // Points counter
   let particleSpawnInterval = 50; // Initial particle spawn interval in milliseconds
-  let highScore = localStorage.getItem('highScore') || 0;
+  let highScore = localStorage.getItem('highScore') || 0; // High score 
   highScore = Math.floor(highScore) // Retrieve high score from localStorage
 
-  window.autoDeleteOnLand = true; // Global variable to control auto-delete on land
-  window.bounceEnabled = false; // Global variable to control bounce
-  window.collisionEnabled = false; // Global variable to control bounce
+  window.autoDeleteOnLand = true; // Global variable to control auto-delete on land (deprecated)
+  window.bounceEnabled = false; // Global variable to control bounce (deprecated)
+  window.collisionEnabled = false; // Global variable to control bounce (deprecated)
 
   // Create health bar
   const healthBar = document.createElement('div');
@@ -95,12 +95,12 @@ document.addEventListener('DOMContentLoaded', () => {
     location.reload(); // Reload the page to restart the game
   });
   const playerState = {
-    x: window.innerWidth / 2,
-    y: floorY - 20,
-    width: 20,
-    height: 20,
-    velocityY: 0,
-    isJumping: false
+    x: window.innerWidth / 2, // Start in the middle of the screen
+    y: floorY - 20, // Start on the floor,
+    width: 20, // Player width
+    height: 20, // Player height
+    velocityY: 0, // Y velocity
+    isJumping: false // Jumping flag
   };
 
   // Create enemy
@@ -114,23 +114,23 @@ document.addEventListener('DOMContentLoaded', () => {
   enemy.style.top = `${floorY - 20}px`;
   document.body.appendChild(enemy);
 
-  const enemyState = {
-    x: 100,
-    y: floorY - 20,
-    width: 20,
-    height: 20,
-    velocityX: 2
+  const enemyState = { 
+    x: 100, // Start at 100px
+    y: floorY - 20, // Start on the floor
+    width: 20, // Enemy width
+    height: 20, // Enemy height
+    velocityX: 2 // X velocity
   };
 
   const keys = {
-    w: false,
-    a: false,
-    s: false,
-    d: false
+    w: false, // Jump
+    a: false, // Move left
+    s: false, // Unused --> could be used for falling down faster maybe
+    d: false // Move right
   };
 
   // Handle key down
-  document.addEventListener('keydown', (event) => {
+  document.addEventListener('keydown', (event) => { // => is the same as function() {}
     if (gameOver) return;
     if (event.key in keys) {
       keys[event.key] = true;
@@ -138,7 +138,7 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   // Handle key up
-  document.addEventListener('keyup', (event) => {
+  document.addEventListener('keyup', (event) => { // => is the same as function() {}
     if (event.key in keys) {
       keys[event.key] = false;
     }
@@ -149,7 +149,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const trailParticles = 10; // Number of particles for the trailing effect
     const colors = ['white','whitesmoke',]; // Array of colors for variation
   
-    // Initial burst particles
+    // Initial burst particles (Left and right)
     for (let i = 0; i < numParticles; i++) {
       const particle = document.createElement('div');
       particle.className = 'jump-particle';
@@ -165,7 +165,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const randomY = (Math.random() - 0.5) * 50; // Reduce vertical movement
       const burstDuration = 300; // Duration for the burst effect
   
-      setTimeout(() => {
+      setTimeout(() => { // => is the same as function() {}
         particle.style.transition = `transform ${burstDuration}ms ease-out, opacity ${burstDuration}ms ease-out`;
         particle.style.transform = `translate(${randomX}px, ${randomY}px)`; // Move to the sides and slightly up/down
         particle.style.opacity = '0';
@@ -175,7 +175,7 @@ document.addEventListener('DOMContentLoaded', () => {
       }, 0);
     }
   
-    // Trailing particles
+    // Trailing particles (upwards)
     for (let i = 0; i < trailParticles; i++) {
       const particle = document.createElement('div');
       particle.className = 'trail-particle';
@@ -191,7 +191,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const randomY = -Math.random() * 10 - 50; // Upward movement for trailing effect
       const trailDuration = 200; // Duration for the trailing effect
   
-      setTimeout(() => {
+      setTimeout(() => {  // => is the same as function() {}
         particle.style.transition = `transform ${trailDuration}ms ease-out, opacity ${trailDuration}ms ease-out`;
         particle.style.transform = `translate(${randomX}px, ${randomY}px)`; // Move upwards and slightly to the side
         particle.style.opacity = '0';
@@ -202,186 +202,193 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
+  // Update player position based on key input using deltaTime
   function updatePlayer(deltaTime) {
-    if (gameOver) return;
+    if (gameOver) return; // Skip player update if game is over (early exit)
 
-    if (keys.w && !playerState.isJumping) {
-      playerState.velocityY = -jumpStrength;
-      playerState.isJumping = true;
+    if (keys.w && !playerState.isJumping) { // Jump if not already jumping
+      playerState.velocityY = -jumpStrength; // Set jump strength
+      playerState.isJumping = true; // Set jumping flag
       spawnJumpParticles(); // Spawn particles when player jumps
     }
     if (keys.a) {
-      playerState.x = Math.max(playerState.x - playerSpeed * deltaTime, leftWallX);
+      playerState.x = Math.max(playerState.x - playerSpeed * deltaTime, leftWallX); // Move left calculation
     }
     if (keys.d) {
-      playerState.x = Math.min(playerState.x + playerSpeed * deltaTime, rightWallX - playerState.width);
+      playerState.x = Math.min(playerState.x + playerSpeed * deltaTime, rightWallX - playerState.width); // Move right calculation
     }
 
     playerState.velocityY += gravity * deltaTime;
     playerState.y += playerState.velocityY * deltaTime;
 
     // Ground collision
-    if (playerState.y >= floorY - playerState.height) {
-      playerState.y = floorY - playerState.height;
-      playerState.velocityY = 0;
-      playerState.isJumping = false;
+    if (playerState.y >= floorY - playerState.height) { // Check if player is on the floor
+      playerState.y = floorY - playerState.height; // Set player on the floor
+      playerState.velocityY = 0; // Reset vertical velocity
+      playerState.isJumping = false; // Reset jumping flag
     }
 
-    player.style.left = `${playerState.x}px`;
-    player.style.top = `${playerState.y}px`;
+    player.style.left = `${playerState.x}px`; // Update player position
+    player.style.top = `${playerState.y}px`; // Update player position
   }
 
   function updateEnemy(deltaTime) {
-    if (gameOver) return;
+    if (gameOver) return; // early exit if game is over
 
-    enemyState.x += enemyState.velocityX * deltaTime;
+    enemyState.x += enemyState.velocityX * deltaTime; // Update enemy position
 
     // Wall collision
     if (enemyState.x <= leftWallX || enemyState.x >= rightWallX - enemyState.width) {
       enemyState.velocityX = -enemyState.velocityX; // Reverse direction
     }
 
-    enemy.style.left = `${enemyState.x}px`;
+    enemy.style.left = `${enemyState.x}px`; // Update enemy position
 
     // Check for collision with player
     if (
-      !isHurt &&
-      enemyState.x < playerState.x + playerState.width &&
-      enemyState.x + enemyState.width > playerState.x &&
-      enemyState.y < playerState.y + playerState.height &&
-      enemyState.y + enemyState.height > playerState.y
+      !isHurt && // Skip collision check if player is hurt
+      enemyState.x < playerState.x + playerState.width && // Checks for overlap on the x-axis
+      enemyState.x + enemyState.width > playerState.x && 
+      enemyState.y < playerState.y + playerState.height && // Checks for overlap on the y-axis
+      enemyState.y + enemyState.height > playerState.y 
     ) {
-      playerHealth -= 10;
-      updateHealthBar();
-      triggerHurtState();
+      playerHealth -= 10; // Decrease player health
+      updateHealthBar(); // Update health bar
+      triggerHurtState(); // Trigger hurt state
     }
   }
 
-  function updateHealthBar() {
+  function updateHealthBar() { // Update health bar width based on player health
     healthBar.style.width = `${playerHealth * 2}px`; // Scale health bar width
-    if (playerHealth <= 0) {
-      playerHealth = 0;
-      setGameOver();
+    if (playerHealth <= 0) { // Check if player health is zero
+      playerHealth = 0; // Set player health to zero
+      setGameOver(); // Set game over state
   }}
 
-  function triggerHurtState() {
-    isHurt = true;
-    player.style.backgroundColor = 'yellow';
-    setTimeout(() => {
-      isHurt = false;
-      player.style.backgroundColor = 'red';
-    }, hurtDuration);
+  function triggerHurtState() { // Trigger hurt state for player to prevent multiple collisions --> instant death
+    isHurt = true; // Set hurt state flag
+    player.style.backgroundColor = 'yellow'; // Change player color to yellow
+    setTimeout(() => { // Reset hurt state after duration (hurtDuration)
+      isHurt = false; // Reset hurt state flag
+      player.style.backgroundColor = 'red'; // Reset player color to red
+    }, hurtDuration); 
   }
 
-  function updateParticles(deltaTime) {
-    if (gameOver) return;
+  function updateParticles(deltaTime) { // Update particles based on deltaTime
+    if (gameOver) return; // early exit 
 
-    particles.forEach((particle, index) => {
-      particle.y += particle.velocityY * deltaTime;
+    particles.forEach((particle, index) => { // Loop through particles
+      particle.y += particle.velocityY * deltaTime; // Update particle position based on velocity
 
-      // Ground collision
-      if (particle.y >= floorY) {
-        particle.y = floorY;
-        document.body.removeChild(particle.element);
-        particles.splice(index, 1);
+      // Ground collision (for particles)
+      if (particle.y >= floorY) { 
+        particle.y = floorY; // Set particle on the floor
+        document.body.removeChild(particle.element); // Remove particle from DOM
+        particles.splice(index, 1); // Remove particle from array
         return; // Skip further processing for this particle
       }
 
-      particle.element.style.top = `${particle.y}px`;
-      particle.element.style.left = `${particle.x}px`;
+      particle.element.style.top = `${particle.y}px`; // Update particle position y
+      particle.element.style.left = `${particle.x}px`; // Update particle position x
 
-      // Check for collision with player
+      // Check for collision with player (for particles currently only used for falling particles i think)
       if (
-        !isHurt &&
-        particle.x < playerState.x + playerState.width &&
-        particle.x + particleRadius * 2 > playerState.x &&
-        particle.y < playerState.y + playerState.height &&
+        !isHurt && // Skip collision check if player is hurt
+        particle.x < playerState.x + playerState.width && // Checks for overlap on the x-axis
+        particle.x + particleRadius * 2 > playerState.x && 
+        particle.y < playerState.y + playerState.height && // Checks for overlap on the y-axis
         particle.y + particleRadius * 2 > playerState.y
       ) {
-        playerHealth -= 10;
-        updateHealthBar();
-        document.body.removeChild(particle.element);
-        particles.splice(index, 1);
-        triggerHurtState();
+        playerHealth -= 10; // Decrease player health
+        updateHealthBar(); // Update health bar
+        document.body.removeChild(particle.element); // Remove particle from DOM
+        particles.splice(index, 1); // Remove particle from array
+        triggerHurtState(); // Trigger hurt state
       }
 
       // Remove particle if it goes off screen
-      if (particle.y > window.innerHeight) {
-        document.body.removeChild(particle.element);
-        particles.splice(index, 1);
+      if (particle.y > window.innerHeight) { // Check if particle is off screen
+        document.body.removeChild(particle.element); // Remove particle from DOM
+        particles.splice(index, 1); // Remove particle from array
       }
     });
 
-    updatePlayer(deltaTime);
-    updateEnemy(deltaTime);
+    updatePlayer(deltaTime); // Update player position passing deltaTime
+    updateEnemy(deltaTime); // Update enemy position passing deltaTime
   }
-  function setGameOver() {
-    gameOver = true;
+  function setGameOver() { // Set game over state
+    gameOver = true; // Set game over flag
 
     // Save high score on game over
-    if (points > highScore) {
-      highScore = points;
-      localStorage.setItem('highScore', highScore);
-      highScoreCounter.innerText = `High Score: ${Math.floor(highScore)}`;
+    if (points > highScore) { // Check if points are higher than high score
+      highScore = points; // Set high score to points
+      localStorage.setItem('highScore', highScore); // Save high score to localStorage
+      highScoreCounter.innerText = `High Score: ${Math.floor(highScore)}`; // Update high score counter
     }
 
     // Show game over menu
-    document.getElementById('final-points').innerText = Math.floor(points);
-    document.getElementById('final-high-score').innerText = Math.floor(highScore);
-    gameOverMenu.style.display = 'block';
+    document.getElementById('final-points').innerText = Math.floor(points); // Update final points in game over menu
+    document.getElementById('final-high-score').innerText = Math.floor(highScore); // Update final high score in game over menu
+    gameOverMenu.style.display = 'block'; // Show game over menu
   }
 
-  function gameLoop(currentTime) {
+  function gameLoop(currentTime) { // Game loop function
+
+    //delta time system to support different frame / update times caused by different hardware --> deltaTime thanks to copilot / ai
     const deltaTime = ((currentTime - lastTime) / 1000) * timeScale; // Convert to seconds and apply timeScale
-    lastTime = currentTime;
+    lastTime = currentTime; // Update lastTime for next frame
 
-    updateParticles(deltaTime);
+    updateParticles(deltaTime); // Update particles passing deltaTime
 
-    if (!gameOver) {
+    if (!gameOver) { // Check if game is not over
       points += deltaTime; // Increase points based on time survived
-      pointsCounter.innerText = `Points: ${Math.floor(points)}`;
-      requestAnimationFrame(gameLoop);
-    }else {
+      pointsCounter.innerText = `Points: ${Math.floor(points)}`; // Update points counter
+      requestAnimationFrame(gameLoop); // Continue game loop every frame fixed frame differences in logic by using delta time system
+    }else { // Check if game is over
       // Save high score on game over
-      if (points > highScore) {
-        highScore = points;
-        localStorage.setItem('highScore', highScore);
-        highScoreCounter.innerText = `High Score: ${Math.floor(highScore)}`;
+      if (points > highScore) { // Check if points are higher than high score
+        highScore = points; // Set high score to points
+        localStorage.setItem('highScore', highScore); // Save high score to localStorage
+        highScoreCounter.innerText = `High Score: ${Math.floor(highScore)}`; // Update high score counter
       }
     }
   }
 
-  // Randomly spawn particles
-  const numParticles = 100; // Number of particles to spawn
-  for (let i = 0; i < numParticles; i++) {
-    let x, y;
-    do {
-      x = Math.random() * window.innerWidth;
-      y = minHeight + Math.random() * (window.innerHeight - minHeight);
-    } while (
-      x < playerState.x + playerState.width &&
+  // Randomly spawn particles (falling particles)
+  const numParticles = 10000; // Number of particles to spawn (idk if this is useful maybe someday)
+  for (let i = 0; i < numParticles; i++) { // Loop to spawn particles
+    let x, y; // Declare x and y variables
+    do { // Do while loop to prevent particles from spawning inside the player
+      x = Math.random() * window.innerWidth; // Random x position
+      y = minHeight + Math.random() * (window.innerHeight - minHeight); // Random y position
+    } while ( // Check if particle is inside player
+      x < playerState.x + playerState.width && // Check for overlap on the x-axis
       x + particleRadius * 2 > playerState.x &&
-      y < playerState.y + playerState.height &&
+      y < playerState.y + playerState.height && // Check for overlap on the y-axis
       y + particleRadius * 2 > playerState.y
     );
 
-    const particle = document.createElement('div');
+    // Create particle element ()
+    const particle = document.createElement('div'); // Create div element for particle
     particle.className = 'particle';
     particle.style.left = `${x}px`;
     particle.style.top = `${y}px`;
     document.body.appendChild(particle);
 
-    particles.push({
-      element: particle,
-      x: x,
-      y: y,
+    particles.push({ // Add particle to particles array
+      element: particle, // Store particle element
+      x: x, // Store particle x position
+      y: y, // Store particle y position
       velocityY: particleFallSpeed, // Use customizable particle fall speed
-      velocityX: 0
+      velocityX: 0 // Set particle horizontal velocity to 0 --> particles only fall down (useless i think)
     });
   }
 
+  // okay this pretty wierd i first spawn particles as "particle" and then i set them as "falling-particle"
+  // if it isn't broke don't fix it i guess
+
   // Create falling particles at intervals
-  setInterval(() => {
+  setInterval(() => {  // Set interval to spawn particles (particleSpawnInterval)
     const x = Math.random() * window.innerWidth;
     const particle = document.createElement('div');
     particle.className = 'falling-particle';
@@ -393,17 +400,22 @@ document.addEventListener('DOMContentLoaded', () => {
     particle.style.top = '0px';
     document.body.appendChild(particle);
 
-    particles.push({
-      element: particle,
-      x: x,
-      y: 0,
+    particles.push({ // Add particle to particles array
+      element: particle, // Store particle element
+      x: x, // Store particle x position
+      y: 0, // Start particle at the top of the screen
       velocityY: particleFallSpeed, // Use customizable particle fall speed
-      velocityX: 0
+      velocityX: 0 
     });
-  }, particleSpawnInterval);
+  }, particleSpawnInterval); 
 
-  requestAnimationFrame(gameLoop);
+  requestAnimationFrame(gameLoop); // Start game loop --> gameloop every frame
 });
+
+
+
+// ------------- End of physic.js -------------
+
       // Ensure the body does not scroll
       document.body.style.overflow = 'hidden';
 

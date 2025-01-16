@@ -90,9 +90,9 @@ document.addEventListener('DOMContentLoaded', function() {
         appendMessage('My Link:<br>1. <a href="https://github.com/bogily" target="_blank" style="color: #8b5cf6; text-decoration: underline;">GitHub</a><br>2. <a href="https://youtube.com/@bro" target="_blank" style="color: #8b5cf6; text-decoration: underline;">Youtube</a>', true);
         break;
       case 'help':
-        appendMessage('Available commands:<br>1. about<br>2. clear<br>3. links<br>4. setdelay [milliseconds]<br>5. physic (redirects to phyisc simulation page)<br>6. home (redirects you to the main page)', true);
+        appendMessage('Available commands:<br>1. about<br>2. clear<br>3. links<br>4. setdelay [milliseconds]<br>5. Starfall (redirects to my game) <br>6. home (redirects you to the main page)', true);
         break;
-      case 'physic':
+      case 'starfall':
         window.location.replace("physic.html");
         break;
       case 'home':

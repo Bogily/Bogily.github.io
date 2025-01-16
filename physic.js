@@ -388,7 +388,7 @@ document.addEventListener('DOMContentLoaded', () => {
     particle.style.position = 'absolute';
     particle.style.width = '10px';
     particle.style.height = '10px';
-    particle.style.backgroundColor = 'blue';
+    particle.style.backgroundColor = 'white';
     particle.style.left = `${x}px`;
     particle.style.top = '0px';
     document.body.appendChild(particle);
@@ -446,9 +446,9 @@ document.addEventListener('DOMContentLoaded', function() {
         appendMessage('My Link:<br>1. <a href="https://github.com/bogily" target="_blank" style="color: #8b5cf6; text-decoration: underline;">GitHub</a><br>2. <a href="https://youtube.com/@bro" target="_blank" style="color: #8b5cf6; text-decoration: underline;">Youtube</a>', true);
         break;
       case 'help':
-        appendMessage('Available commands:<br>1. about<br>2. clear<br>3. links<br>4. setdelay [milliseconds]<br>5. physic (redirects to phyisc simulation page)<br>6. home (redirects you to the main page)<br>7. clearp (clearsparticles)<br>8. togglebounce (toggles particle bounce)<br>9. togglecollision (toggles particle collision)<br>10. toggledelete (toggles auto-delete on land)', true);
+        appendMessage('Available commands:<br>1. about<br>2. clear<br>3. links<br>4. setdelay [milliseconds] (legacy)<br>5. Starfall (redirects to my game page (this))<br>6. home (redirects you to the main page)<br>7. clearp (clearsparticles) (legacy)<br>8. togglebounce (toggles particle bounce) (legacy)<br>9. togglecollision (toggles particle collision) (legacy)<br>10. toggledelete (toggles auto-delete on land) (legacy)', true);
         break;
-      case 'physic':
+      case 'starfall':
         window.location.replace("physic.html");
         break;
       case 'home':
